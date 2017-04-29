@@ -82,18 +82,21 @@
         "dojo/domReady!"], function (Map, SpatialReference, Graphic, Point, Polygon, Extent, webMercatorUtils, FeatureLayer, LabelClass, SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol, TextSymbol, Font, SimpleRenderer, HeatmapRenderer, UniqueValueRenderer, ClassBreaksRenderer, TimeExtent, InfoTemplate, Color, TimeSlider, BasemapGallery, parser, array, dom, domStyle, on, domConstruct, xhr) {
 		//Configurations
 		parser.parse();
-		_host = getEnvironmentVar("ELASTIC", "coordinator.elastic.l4lb.thisdcos.directory:9200" )
-                _index_name = getEnvironmentVar("INDEX_NAME", "festival" )
-                _index_type = getEnvironmentVar("INDEX_TYPE", "festival" )		
-		console.log("host is "+_host+"|index name is: "+_index_name+"|index type is: "+_index_type )
+		// _host = getEnvironmentVar("ELASTIC", "coordinator.elastic.l4lb.thisdcos.directory:9200" );
+        // _index_name = getEnvironmentVar("INDEX", "festival" );
+        // _index_type = getEnvironmentVar("INDEX_TYPE", "festival" );		
+		// console.log("host is "+_host+"|index name is: "+_index_name+"|index type is: "+_index_type );
 		//Define global variables
 		var map,
 			///////////////////////////////////////////////////////////////////
 			//Please configure the following parameters
 			//host = 'spatiotemporal-store.elasticsearch.mesos:9200', //Elasticsearch address 
-			host = "'"+_host+"'", //Elasticsearch address if tunnel is used
-			index = "'"+_index_name+"'", //DataSource Index
-			type = "'"+_index_type+"'", //DataSource Type
+			// host = "'"+_host+"'", //Elasticsearch address if tunnel is used
+            host = 'coordinator.elastic.l4lb.thisdcos.directory:9200', //Elasticsearch address if tunnel is used
+			// index = "'"_index_name+"'", //DataSource Index
+            index = 'swarm', //DataSource Index
+			// type = "'"_index_type+"'", //DataSource Type
+            type = 'taxi', //DataSource Type
 			refreshInterval = 2000, //Auto refresh interval in ms, 0 = no auto refresh
 			featureThreshold = 1000, //Feature thereshold when to switch from aggregation to feature rendering
 			//////////////////////////////////////////////////////////////////            
