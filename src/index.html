@@ -84,22 +84,22 @@
 		parser.parse();
 		// _host = getEnvironmentVar("ELASTIC", "coordinator.elastic.l4lb.thisdcos.directory:9200" );
         // _index_name = getEnvironmentVar("INDEX", "festival" );
-        // _index_type = getEnvironmentVar("INDEX_TYPE", "festival" );		
+        // _index_type = getEnvironmentVar("INDEX_TYPE", "festival" );
 		// console.log("host is "+_host+"|index name is: "+_index_name+"|index type is: "+_index_type );
 		//Define global variables
 		var map,
 			///////////////////////////////////////////////////////////////////
 			//Please configure the following parameters
-			//host = 'spatiotemporal-store.elasticsearch.mesos:9200', //Elasticsearch address 
+			//host = 'spatiotemporal-store.elasticsearch.mesos:9200', //Elasticsearch address
 			// host = "'"+_host+"'", //Elasticsearch address if tunnel is used
-            host = 'coordinator.elastic.l4lb.thisdcos.directory:9200', //Elasticsearch address if tunnel is used
+            host = 'elastic.l4lb.thisdcos.directory:9200', //Elasticsearch address if tunnel is used
 			// index = "'"_index_name+"'", //DataSource Index
-            index = 'swarm', //DataSource Index
+            index = 'taxi', //DataSource Index
 			// type = "'"_index_type+"'", //DataSource Type
             type = 'taxi', //DataSource Type
 			refreshInterval = 2000, //Auto refresh interval in ms, 0 = no auto refresh
 			featureThreshold = 1000, //Feature thereshold when to switch from aggregation to feature rendering
-			//////////////////////////////////////////////////////////////////            
+			//////////////////////////////////////////////////////////////////
 			initTimeExtent,
 			timePara,
 			startTime,
@@ -260,9 +260,11 @@
 					if (error) {
 						console.log(error)
 					} else {
+						console.log("Geometry is: "+geometry);
 						var features = array.map(response.hits.hits, function (feature, i) {
 							var newFeature = {},
-								coords = feature.fields.geometry[0].split(",").map(Number).reverse(),
+								//coords = feature.fields.geometry[0].split(",").map(Number).reverse(),
+								coords = feature.fields.geometry.split(",").map(Number).reverse(),
 								geometry = new Point(coords),
 								attributes = {};
 							geometry.setSpatialReference(new SpatialReference(4326))
@@ -272,6 +274,7 @@
 							newFeature = new Graphic(geometry, null, attributes, null);
 							return newFeature;
 						})
+						console.log("Coords is: "+coords.toString());
 						map.getLayer("ESFeatures").clear();
 						map.getLayer("ESAggregations").clear();
 						var layer = map.getLayer("ESFeatures");
@@ -450,7 +453,7 @@
 		//Adding Layers
 		//#############################################################################################
 		//
-		//Add ES Feature Layer 
+		//Add ES Feature Layer
 		//
 		function addESFeatureLayer() {
 			var layerDefinition = {
@@ -827,7 +830,7 @@
         			return result;
     			else
         			return defaultvalue;
-		}		
+		}
 	});
 </script>
 
